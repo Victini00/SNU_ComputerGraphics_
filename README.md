@@ -1,3 +1,6 @@
+> 📌 **This repository originated from** [here](https://github.com/IntelligentMOtionlab/SNU_ComputerGraphics).
+
+>🔹 The content is **identical** to the original repository.
 
 # Requirements
 
