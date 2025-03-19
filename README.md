@@ -37,7 +37,7 @@ After installation, verify Conda is installed correctly:
 ## 2. Clone or Download the Repository
 ### Option 1. Clone via Git
 
-    git clone  ...
+    git clone git@github.com:SNU-IntelligentMotionLab/SNU_ComputerGraphics_.git
 
 ### Option 2: Download as ZIP
 If you don't have Git, 
