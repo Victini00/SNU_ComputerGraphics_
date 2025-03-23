@@ -65,6 +65,8 @@ channels:
 dependencies:
   - python>=3.8
   - pip
+  # Install Pyglet here if you encounter any issues
+  # - pyglet
   # You can add more Conda packages here  
   # - numpy==1.23.1
   # - scipy
