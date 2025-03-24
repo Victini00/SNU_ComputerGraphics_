@@ -61,6 +61,7 @@ If you have installed additional packages, be sure to update `environment.yml` m
 # environment.yml
 name: snu_graphics
 channels:
+  # - conda-forge -> you can install pyglet from conda-forge
   - defaults
 dependencies:
   - python>=3.8
