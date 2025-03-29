@@ -10,7 +10,7 @@ class CustomGroup(pyglet.graphics.Group):
     '''
     To draw multiple 3D shapes in Pyglet, you should make a group for an object.
     '''
-    def __init__(self, transform_mat: Mat4, order):
+    def __init__(self, transform_mat: Mat4, order, type, group, rotation_matrix = Mat4.from_translation(vector=Vec3(x=0, y=0, z=0))):
         super().__init__(order)
 
         '''
@@ -19,6 +19,11 @@ class CustomGroup(pyglet.graphics.Group):
         self.shader_program = shader.create_program(
             shader.vertex_source_default, shader.fragment_source_default
         )
+
+        # shape.ransform_mat
+        self.type = type
+        self.group = group
+        self.rotation_matrix = rotation_matrix
 
         self.transform_mat = transform_mat
         self.indexed_vertices_list = None
@@ -45,16 +50,19 @@ class Cube:
     '''
     default structure of cube
     '''
-    def __init__(self, scale=1.0):
-        self.vertices = [-0.5, -0.5, 0.5,
-            0.5, -0.5, 0.5,
-            0.5, 0.5, 0.5,
-            -0.5, 0.5, 0.5,
-            -0.5, -0.5, -0.5,
-            0.5, -0.5, -0.5,
-            0.5,0.5,-0.5,
-            -0.5,0.5,-0.5]
-        self.vertices = [scale[idx%3] * x for idx, x in enumerate(self.vertices)]
+    def __init__(self, scale_x=1.0, scale_y=1.0, scale_z=1.0):
+        # RenderWindow.update[0~23]
+        # indexed_vertices_list.vertices
+        self.vertices = [
+            -0.5*scale_x, -0.5*scale_y, 0.5*scale_z,
+            0.5*scale_x, -0.5*scale_y, 0.5*scale_z,
+            0.5*scale_x, 0.5*scale_y, 0.5*scale_z,
+            -0.5*scale_x, 0.5*scale_y, 0.5*scale_z,
+            -0.5*scale_x, -0.5*scale_y, -0.5*scale_z,
+            0.5*scale_x, -0.5*scale_y, -0.5*scale_z,
+            0.5*scale_x,0.5*scale_y,-0.5*scale_z,
+            -0.5*scale_x,0.5*scale_y,-0.5*scale_z]
+        # self.vertices = [scale[idx%3] * x for idx, x in enumerate(self.vertices)]
     
         self.indices = [0, 1, 2, 2, 3, 0,
                     4, 7, 6, 6, 5, 4,
@@ -63,16 +71,83 @@ class Cube:
                     5, 6, 2, 2, 1, 5,
                     7, 4, 0, 0, 3, 7]
     
-        self.colors = (255, 0,  0,255,
-                0, 255,  0,255,
-                0,   0,255,255,
-                255,255,255,255,
-                
-                255, 0,  0,255,
-                0, 255,  0,255,
-                0,   0,255,255,
-                255,255,255,255)
-        
+        self.colors = [
+            255, 255, 0, 255, # 노랑
+            255, 255, 0, 255, 
+            255, 255, 0, 255, 
+            255, 255, 0, 255, 
+            255, 255, 0, 255, 
+            255, 255, 0, 255, 
+            255, 255, 0, 255, 
+            255, 255, 0, 255
+        ]
+
+
+class Cylinder:
+    def __init__(self, radius=1, height=1, slices=32, option="Wheel"):
+
+        self.vertices = []
+        self.indices = []
+        self.colors = []
+
+        for i in range(slices + 1):
+            angle = 2 * i * math.pi / slices
+            x = radius * math.cos(angle)
+            z = radius * math.sin(angle)
+
+            self.vertices.extend([x, height/2, z])
+
+            # 위아래 원원
+            if option == "Head":
+                self.colors.extend([64,128,0,255])
+            elif option == "Wheel":
+                if i%8 == 0: self.colors.extend([0,0,0,255])
+                else: self.colors.extend([255,255,255,255])
+            else:
+                self.colors.extend([255,0,0,255])
+
+            self.vertices.extend([x, -height/2, z])
+            if option == "Head":
+                self.colors.extend([64,128,0,255])
+            elif option == "Wheel":
+                if i%8 == 0: self.colors.extend([0,0,0,255])
+                else: self.colors.extend([255,255,255,255])
+            else:
+                self.colors.extend([255,0,0,255])
+
+        # 옆면
+        for i in range(slices):
+            index1 = i * 2
+            index2 = (i + 1) * 2
+            index3 = index1 + 1
+            index4 = index2 + 1
+
+            self.indices.extend([index1, index2, index3, 
+                                 index2, index4, index3])
+
+        top_center = len(self.vertices) // 3
+        bottom_center = top_center + 1
+
+        # 중심
+        self.vertices.extend([0, height/2, 0])  
+        if option == "Wheel": self.colors.extend([0,0,0,255])
+        else: self.colors.extend([255,0,0,255])
+
+        self.vertices.extend([0, -height/2, 0]) 
+        if option == "Wheel": self.colors.extend([0,0,0,255])
+        else: self.colors.extend([255,0,0,255])
+
+
+        for i in range(slices):
+            index1 = i * 2
+            index2 = ((i + 1) % slices) * 2
+
+            # 윗면은 시계 방향
+            self.indices.extend([top_center, index2, index1])
+            
+            # 아랫면은 시계 방향
+            self.indices.extend([bottom_center, index1 + 1, index2 + 1])
+
 class Sphere:
     '''
     default structure of sphere
@@ -156,3 +231,115 @@ class Sphere:
 
         for i in range(num_triangles*3):
             self.indices.append(i)
+
+
+class Propeller:
+    def __init__(self, radius=1, height=1, slices=30):
+        self.vertices = []
+        self.indices = []
+        self.colors = []
+
+        # 위치 보정값 - 정삼각형 아랫 부분을 y축 중점으로.
+        coordinate_correction = (math.sqrt(3) / 2) * 2 * radius
+
+        triangle_side = 2 * radius
+        triangle_height = (math.sqrt(3) / 2) * triangle_side
+
+        # 반원
+        for i in range(slices + 1):
+            angle = math.pi * i / slices  
+
+            x = radius * math.cos(angle)
+            z = radius * math.sin(angle)
+
+            # 위아래 원
+
+            self.vertices.extend([x, height/2, z + coordinate_correction])
+            self.colors.extend([127, 255, 0, 255])
+            self.vertices.extend([x, -height/2, z + coordinate_correction])
+            self.colors.extend([127, 255, 0, 255])
+
+        for i in range(slices + 1):
+            index1 = i * 2
+            index2 = (i + 1) * 2
+            index3 = index1 + 1
+            index4 = index2 + 1
+
+            self.indices.extend([index1, index2, index3, 
+                                 index2, index4, index3])
+
+        top_vertices_start = len(self.vertices) // 3
+
+        # 반원 중심점
+        self.vertices.extend([0, height/2, coordinate_correction])
+        self.colors.extend([127, 255, 0, 255])
+
+        # 1. 왼쪽 
+        self.vertices.extend([-radius, height/2, coordinate_correction])
+        self.colors.extend([127, 255, 0, 255])
+
+        # 2.오른쪽 
+        self.vertices.extend([radius, height/2, coordinate_correction])
+        self.colors.extend([127, 255, 0, 255])
+
+        # 3.위쪽 
+        self.vertices.extend([0, height/2, coordinate_correction-triangle_height])
+        self.colors.extend([127, 255, 0, 255])
+
+        # 윗면
+        for i in range(slices + 1):
+            index1 = i * 2
+            index2 = (i + 1) * 2
+            self.indices.extend([top_vertices_start, index2, index1])
+
+        # 정삼각형 부분
+        self.indices.extend([
+            top_vertices_start + 1, 
+            top_vertices_start + 2, 
+            top_vertices_start + 3  
+        ])
+
+        # 여기부터 아랫면면
+        bottom_vertices_start = len(self.vertices) // 3
+
+        # 반원 중심점
+        self.vertices.extend([0, -height/2, coordinate_correction])
+        self.colors.extend([127, 255, 0, 255])
+        self.vertices.extend([-radius, -height/2, coordinate_correction])
+        self.colors.extend([127, 255, 0, 255])
+        self.vertices.extend([radius, -height/2, coordinate_correction])
+        self.colors.extend([127, 255, 0, 255])
+        self.vertices.extend([0, -height/2, coordinate_correction-triangle_height])
+        self.colors.extend([127, 255, 0, 255])
+
+        # 아랫면
+        for i in range(slices + 1):
+            index1 = i * 2 + 1
+            index2 = (i + 1) * 2 + 1
+            self.indices.extend([bottom_vertices_start, index1, index2])
+
+        # 정삼각형 부분
+        self.indices.extend([
+            bottom_vertices_start + 1,     
+            bottom_vertices_start + 3,  
+            bottom_vertices_start + 2
+        ])
+
+        # 정삼각형 부분 ~ 옆면
+        self.indices.extend([
+            top_vertices_start + 2,     
+            bottom_vertices_start + 2,  
+            top_vertices_start + 3, 
+        
+            bottom_vertices_start + 2,     
+            bottom_vertices_start + 3,  
+            top_vertices_start + 3, 
+        
+            top_vertices_start + 3,     
+            bottom_vertices_start + 3,  
+            top_vertices_start + 1, 
+        
+            bottom_vertices_start + 3,     
+            bottom_vertices_start + 1,  
+            top_vertices_start + 1 
+        ])
