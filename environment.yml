@@ -4,9 +4,9 @@ channels:
 dependencies:
   - python>=3.8
   - pip
-  # You can add more Conda packages here  
-  # - numpy==1.23.1
-  # - scipy
   - pip:
       - pyglet>=2.1.0
       # - another-pip-package
+
+# scipy
+# numpy

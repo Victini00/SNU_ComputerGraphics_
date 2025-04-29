@@ -3,8 +3,6 @@ from pyglet import window, app, shapes
 from pyglet.window import mouse,key
 from pyglet.math import Mat4, Vec3
 
-
-
 class Control:
     """
     Control class controls keyboard & mouse inputs.

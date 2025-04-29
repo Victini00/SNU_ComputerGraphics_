@@ -22,15 +22,15 @@ class RenderWindow(pyglet.window.Window):
         '''
         View (camera) parameters
         '''
-        self.cam_eye = Vec3(0,7,7)
-        self.cam_target = Vec3(0,2,0)
+        self.cam_eye = Vec3(0,20,30)
+        self.cam_target = Vec3(0,0,0)
         self.cam_vup = Vec3(0,1,0)
         self.view_mat = None
         '''
         Projection parameters
         '''
         self.z_near = 0.1
-        self.z_far = 100
+        self.z_far = 46
         self.fov = 100
         self.proj_mat = None
 
@@ -78,11 +78,11 @@ class RenderWindow(pyglet.window.Window):
             shapes created later rotate faster while positions are not changed.
             '''
             if self.animate:
-                if shape.group == "car":
-                    if shape.type == "Wheel" or shape.type == "Head":
+                if shape.group == "Cornell Box":
+                    if shape.type == "Tape" or shape.type == "Head":
 
-                        rotate_angle = 0.7 * dt if (shape.type == "Wheel") else 5 * dt
-                        rotate_axis = Vec3(0, 1, 0)
+                        rotate_angle = 0.7 * dt if (shape.type == "Tape") else 5 * dt
+                        rotate_axis = Vec3(1, 0, 0)
                         rotate_mat = Mat4.from_rotation(angle=rotate_angle, vector=rotate_axis)
                         
                         shape.transform_mat = shape.transform_mat @ rotate_mat
@@ -94,8 +94,8 @@ class RenderWindow(pyglet.window.Window):
                         rotate_mat = Mat4.from_rotation(angle=rotate_angle, vector=rotate_axis)
                         shape.transform_mat = shape.transform_mat @ rotate_mat
 
-                global_translation = Mat4.from_translation(vector=Vec3(x=-0.7 * dt, y=0, z=0))
-                shape.transform_mat = global_translation @ shape.transform_mat
+                # global_translation = Mat4.from_translation(vector=Vec3(x=-0.7 * dt, y=0, z=0))
+                # shape.transform_mat = global_translation @ shape.transform_mat
 
                 if shape.type == "Propeller" or shape.type == "Head":
                     y_offset = 2* dt * math.sin(time.time() * math.pi * 2)  # 1초 주기로 왕복

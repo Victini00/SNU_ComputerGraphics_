@@ -82,6 +82,11 @@ class Cube:
             255, 255, 0, 255
         ]
 
+    def set_position(self, new_pos: Vec3):
+        # self.local_vertices는 정적 좌표
+        transformed = [coord + offset for coord, offset in zip(self.local_vertices, new_pos * len(self.local_vertices))]
+        self.indexed_vertices_list.vertices[:] = transformed
+
 
 class Cylinder:
     def __init__(self, radius=1, height=1, slices=32, option="Wheel"):

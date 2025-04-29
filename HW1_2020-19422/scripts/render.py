@@ -79,9 +79,8 @@ class RenderWindow(pyglet.window.Window):
             '''
             if self.animate:
                 if shape.group == "car":
-                    if shape.type == "Wheel" or shape.type == "Head":
-
-                        rotate_angle = 0.7 * dt if (shape.type == "Wheel") else 5 * dt
+                    if shape.type == "Wheel":
+                        rotate_angle = 0.7 * dt 
                         rotate_axis = Vec3(0, 1, 0)
                         rotate_mat = Mat4.from_rotation(angle=rotate_angle, vector=rotate_axis)
                         
@@ -94,13 +93,22 @@ class RenderWindow(pyglet.window.Window):
                         rotate_mat = Mat4.from_rotation(angle=rotate_angle, vector=rotate_axis)
                         shape.transform_mat = shape.transform_mat @ rotate_mat
 
+                    if shape.type == "Head":
+                        rotate_angle = 5 * dt
+                        rotate_axis = Vec3(0, 1, 0)
+
+                        rotate_mat = Mat4.from_rotation(angle=rotate_angle, vector=rotate_axis)
+                        shape.transform_mat = shape.transform_mat @ rotate_mat
+
+                    if shape.type == "Propeller" or shape.type == "Head":
+                        y_offset = 2* dt * math.sin(time.time() * math.pi * 2)  # 1초 주기로 왕복
+                        wing_translation = Mat4.from_translation(vector=Vec3(x=0, y=y_offset, z=0))
+                        shape.transform_mat = wing_translation @ shape.transform_mat
+
                 global_translation = Mat4.from_translation(vector=Vec3(x=-0.7 * dt, y=0, z=0))
                 shape.transform_mat = global_translation @ shape.transform_mat
 
-                if shape.type == "Propeller" or shape.type == "Head":
-                    y_offset = 2* dt * math.sin(time.time() * math.pi * 2)  # 1초 주기로 왕복
-                    wing_translation = Mat4.from_translation(vector=Vec3(x=0, y=y_offset, z=0))
-                    shape.transform_mat = wing_translation @ shape.transform_mat
+                
 
             '''
             Update view and projection matrix. There exist only one view and projection matrix 
