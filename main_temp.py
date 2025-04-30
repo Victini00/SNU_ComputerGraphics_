@@ -15,8 +15,8 @@ cart_index = 0
 cart_speed = 20.0  # 샘플 index/초
 
 if __name__ == '__main__':
-    width = 1280
-    height = 720
+    width = 2560
+    height = 1440
 
     mouseRotatePressed = False
     mouseMovePressed   = False
@@ -41,13 +41,14 @@ if __name__ == '__main__':
     ]
     converted_ctrl_pts = [[x, height, y] for (x, y, height) in ctrl_pts]
 
-    rail = SplineRail(converted_ctrl_pts, samples=150, thickness=0.1)
+    rail = SplineRail(converted_ctrl_pts, samples=100, thickness=0.2)
     cart = Cube(scale_x=0.5, scale_y=0.5, scale_z=0.5)  # 작은 큐브
 
     start_pos = Vec3(*rail.path_points[0])
     cart_transform = Mat4.from_translation(start_pos)
 
     rail.add_to_renderer(renderer)
+    rail.draw_debug_lines(renderer) # 양 옆 rail
     renderer.rail = rail
 
     renderer.cart_shape = renderer.add_shape(

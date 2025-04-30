@@ -47,6 +47,7 @@ class CustomGroup(pyglet.graphics.Group):
     def __hash__(self):
         return hash((self.order)) 
 
+
 class SplineRail:
     def __init__(self, ctrl_pts, degree=3, samples=100, thickness=5):
         self.ctrl_pts = np.array(ctrl_pts)
@@ -55,41 +56,82 @@ class SplineRail:
         self.thickness = thickness
 
         self.verts = []
-        self.indices = []
+        self.indices = []       
         self.colors = []
 
         self.path_points = []
 
+        self.left_rail_points = []
+        self.right_rail_points = [] 
+
+        self.fix_coordinate()
         self.generate()
 
+    def fix_coordinate(self):
+        sum_x = 0
+        sum_height = 0 
+        sum_y = 0
+
+        for i in self.ctrl_pts:
+            sum_x += i[0]
+            sum_height += i[1]
+            sum_y += i[2]
+
+        n = len(self.ctrl_pts)
+        center = np.array([
+            sum_x / n,
+            sum_height / n,
+            sum_y / n
+        ])
+
+        # 모든 제어점에서 중심 좌표를 빼서 평행이동
+        self.ctrl_pts = self.ctrl_pts - center
+
     def generate(self):
-        # make closed B-spline
-        closed_ctrl = np.vstack((self.ctrl_pts, self.ctrl_pts[:self.degree]))
+        # Make closed B-spline
+        closed_ctrl = np.vstack([self.ctrl_pts, self.ctrl_pts[:self.degree]])
         n = len(closed_ctrl)
-        knot = np.concatenate((
-            np.zeros(self.degree),
-            np.linspace(0, 1, n - self.degree + 1),
-            np.ones(self.degree)
-        ))
+        
+        # Uniform periodic knot vector
+        knot = np.arange(0, n + self.degree + 1)
+
+        # Parameter range for periodic spline
+        t_vals = np.linspace(self.degree, n, self.samples, endpoint=False)
+
         spline = BSpline(knot, closed_ctrl, self.degree)
-        t_vals = np.linspace(0, 1, self.samples, endpoint=False)
         points = spline(t_vals)
 
         # simple rectangular strips between segments
         idx = 0
-        for i in range(len(points)-1):
+        for i in range(len(points)):
             p1 = points[i]
-            p2 = points[(i+1) % len(points)]
+            p2 = points[(i + 1) % (len(points))]
 
+            # side rail
             dir = p2 - p1
             dir /= np.linalg.norm(dir)
             up = np.array([0, 1, 0])
-            if abs(np.dot(dir, up)) > 0.9:  #  dir과 up이 거의 평행하면 뒤틀림 방지
+            if abs(np.dot(dir, up)) > 0.9:
                 up = np.array([1, 0, 0])
             side = np.cross(dir, up)
             side = side / (np.linalg.norm(side) + 1e-8) * self.thickness
 
-            # quad: 2 triangles
+            # 중간 포인트를 기준으로 레일 포인트 생성
+            midpoint = 0.5 * (p1 + p2)
+            rail_offset = side * 0.3  # 좌우 폭
+            self.left_rail_points.append(midpoint - rail_offset)
+            self.right_rail_points.append(midpoint + rail_offset)
+
+            # side rail end
+
+            dir = p2 - p1
+            dir /= np.linalg.norm(dir)
+            up = np.array([0, 1, 0])
+            if abs(np.dot(dir, up)) > 0.9:
+                up = np.array([1, 0, 0])
+            side = np.cross(dir, up)
+            side = side / (np.linalg.norm(side) + 1e-8) * self.thickness
+
             a = p1 + side
             b = p1 - side
             c = p2 - side
@@ -97,7 +139,8 @@ class SplineRail:
 
             for pt in [a, b, c, d]:
                 self.verts.extend(pt.tolist())
-                self.colors.extend([100, 180, 255, 255])  # light blue
+                if i%5==0: self.colors.extend([200, 200, 0, 255])  # yellow?
+                else: self.colors.extend([100, 180, 255, 255])  # light blue
 
             self.indices.extend([
                 idx, idx+1, idx+2,
@@ -107,8 +150,16 @@ class SplineRail:
                 idx+3, idx+2, idx
             ])
             idx += 4
-        
+
         self.path_points = points
+
+    def draw_debug_lines(self, renderer):
+        for rail in [self.left_rail_points, self.right_rail_points]:
+            for i in range(len(rail)):
+                p1 = rail[i]
+                p2 = rail[(i+1) % len(rail)]
+                renderer.add_line(p1, p2, color=(255, 50, 50))  # 예: 빨간 선
+
 
     def add_to_renderer(self, renderer):
         transform = Mat4()
