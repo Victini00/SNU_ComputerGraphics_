@@ -2,84 +2,73 @@
 
 >🔹 The content is **identical** to the original repository.
 
-# Requirements
+# Computer Graphics Assignments (2025)
 
-This is a baseline code for **SNU Computer Graphics (4190.410)**.
-This code uses [Pyglet](https://github.com/pyglet/pyglet) which is a cross-platform windowing library under Python 3.8+. 
-Supported platforms are:
+This repository contains the completed code and documentation for the 2025 Computer Graphics programming assignments.
 
-* Windows 7 or later
-* Mac OS X 10.3 or later
-* Linux, with the following libraries (most recent distributions will have these in a default installation):
+---
 
+## 📦 Contents
 
-# Installation
+- `assignment1_hierarchical_modeling/`: Hierarchical model with animation
+- `assignment2_cornell_box/`: Scene modeling of a Cornell box
+- `assignment3_roller_coaster/`: Roller coaster simulation using B-splines and arc-length parameterization
 
-## 0. Installing IDE
-If you haven't installed an IDE, download **VSCode** or **PyCharm**
+---
 
-- [Download VSCode](https://code.visualstudio.com/download)
-- [Download PyCharm](https://www.jetbrains.com/ko-kr/pycharm/download/?section=windows)
+## 🎮 Assignment #1 — Hierarchical Modeling
 
+**Objective:**  
+Design a 3-level hierarchical model using primitive transformations (translation, rotation, scaling), and animate it to show its structure.
 
+**Highlights:**
+- Constructed a hierarchical articulated model (e.g., robot arm).
+- Used multiple primitive shapes (cubes, cylinders) and transformation matrices.
+- Animated joints independently to demonstrate the hierarchy.
+- Code written in Pyglet using custom transformation logic.
 
-## 1. Installing Conda
-If Conda is not installed, download **Miniconda (recommended)** or Anaconda:
+📁 Folder: `assignment1_hierarchical_modeling/`  
+📽️ Demo Video: *[YouTube link]*
 
-- **[Download Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install)**
-- [Download Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+---
 
-After installation, verify Conda is installed correctly:
+## 🧱 Assignment #2 — Cornell Box Scene Modeling
 
-    conda --version
+**Objective:**  
+Recreate a real-world Cornell Box using geometric primitives and match its physical layout and camera setup in a 3D scene.
 
+**Highlights:**
+- Built a box with red, green, and white walls and placed boxes and spheres inside.
+- Manually measured dimensions and camera FOV to align virtual and real views.
+- Enabled interactive camera via a trackball viewer.
+- Includes photo references and matching render screenshots.
 
-## 2. Clone or Download the Repository
-### Option 1. Clone via Git
+📁 Folder: `assignment2_cornell_box/`  
+📷 Real Photo & 📸 Render Comparison: Included in report  
+📽️ Demo Video: *[YouTube link]*
 
-    git clone git@github.com:SNU-IntelligentMotionLab/SNU_ComputerGraphics_.git
+---
 
-### Option 2: Download as ZIP
-If you don't have Git, 
-1. Click "Code" → "Download ZIP"
-2. Extract the ZIP file and open the folder.
+## 🎢 Assignment #3 — Roller Coaster Simulation
 
-## 3. Creating Environmnet
-Once inside the project folder, create a Conda environment using `environment.yml`:
+**Objective:**  
+Simulate a moving cart along a smooth spline-based roller coaster track using physically-based motion.
 
-    conda env create -f environment.yml
+**Highlights:**
+- Constructed a closed B-spline loop for the track.
+- Implemented arc-length reparameterization to ensure constant-speed motion.
+- Defined a Frenet frame (Tangent-Normal-Binormal) moving smoothly along the spline.
+- Added realistic motion: speed varies based on track height via energy conservation.
+- First-person camera mode implemented to ride the coaster.
 
-Then, activate the environment:
+📁 Folder: `assignment3_roller_coaster/`  
+📽️ Demo Video: *[YouTube link]*
 
-    conda activate snu_graphics
+---
 
-### ❗ Note:
+## 🔧 How to Run
 
-If you have installed additional packages, be sure to update `environment.yml` manually.
+Each folder contains a `main.py` or `run.py` entry point. Ensure you have Python 3.10+ and install dependencies:
 
-```yaml
-# environment.yml
-name: snu_graphics
-channels:
-  # - conda-forge -> you can install pyglet from conda-forge
-  - defaults
-dependencies:
-  - python>=3.8
-  - pip
-  # Install Pyglet here if you encounter any issues
-  # - pyglet
-  # You can add more Conda packages here  
-  # - numpy==1.23.1
-  # - scipy
-  - pip:
-      - pyglet>=2.1.0
-      # - another-pip-package  
-```
-
-### 4. Running the Code
-You can execute the code easily by:
-
-    python3 main.py
-
-You can then see the result, as shown in the image below.
-![Animation](assets/example.gif)
+```bash
+pip install -r requirements.txt
