@@ -26,9 +26,8 @@ Design a 3-level hierarchical model using primitive transformations (translation
 - Used multiple primitive shapes (cubes, cylinders) and transformation matrices.
 - Animated joints independently to demonstrate the hierarchy.
 - Code written in Pyglet using custom transformation logic.
-
-📁 Folder: `assignment1_hierarchical_modeling/`  
-📽️ Demo Video: *[YouTube link]*
+ 
+📸 Render: ![Image](https://github.com/user-attachments/assets/06171d9f-8d46-467a-beee-e2dad3327548)
 
 ---
 
@@ -43,10 +42,8 @@ Recreate a real-world Cornell Box using geometric primitives and match its physi
 - Enabled interactive camera via a trackball viewer.
 - Includes photo references and matching render screenshots.
 
-📁 Folder: `assignment2_cornell_box/`  
-📷 Real Photo & 📸 Render Comparison: Included in report  
-📽️ Demo Video: *[YouTube link]*
-
+📷 Real Photo & 📸 Render Comparison: ![Image](https://github.com/user-attachments/assets/0b22f589-6db3-48cf-93ac-751711a5cf3e)
+![Image](https://github.com/user-attachments/assets/6a53ebe8-5356-4a95-9d01-d6c619d91566)
 ---
 
 ## 🎢 Assignment #3 — Roller Coaster Simulation
@@ -61,14 +58,6 @@ Simulate a moving cart along a smooth spline-based roller coaster track using ph
 - Added realistic motion: speed varies based on track height via energy conservation.
 - First-person camera mode implemented to ride the coaster.
 
-📁 Folder: `assignment3_roller_coaster/`  
-📽️ Demo Video: *[YouTube link]*
+📸 Render: ![Image](https://github.com/user-attachments/assets/bf8216ab-614b-450a-8b60-026feb297fb4)
+![Image](https://github.com/user-attachments/assets/972f9c43-9cb7-4a59-98a1-1eb57f87a5ad)
 
----
-
-## 🔧 How to Run
-
-Each folder contains a `main.py` or `run.py` entry point. Ensure you have Python 3.10+ and install dependencies:
-
-```bash
-pip install -r requirements.txt
