@@ -10,13 +10,9 @@ from control import Control
 
 import camera
 
-# 상태 변수
-cart_index = 0
-cart_speed = 20.0  # 샘플 index/초
-
 if __name__ == '__main__':
-    width = 2560
-    height = 1440
+    width = 1280
+    height = 720
 
     mouseRotatePressed = False
     mouseMovePressed   = False
@@ -26,7 +22,6 @@ if __name__ == '__main__':
     renderer = RenderWindow(width, height, "Roller Coaster", resizable = True)   
     renderer.set_location(200, 200)
 
-    # Keyboard/Mouse control. Not implemented yet.
     controller = Control(renderer)
 
     # Control points : x, y, height
@@ -39,18 +34,18 @@ if __name__ == '__main__':
         [-5, 8, 3],
         [-1, 7, 2]
     ]
+
+    center_point = [12/7, 50/7, 26/7] # x, y, height
+
     converted_ctrl_pts = [[x, height, y] for (x, y, height) in ctrl_pts]
 
-    rail = SplineRail(converted_ctrl_pts, samples=100, thickness=0.2)
-    cart = Cube(scale_x=0.5, scale_y=0.5, scale_z=0.5)  # 작은 큐브
+    rail = SplineRail(converted_ctrl_pts, samples=150, thickness=0.2, gap=0.3)
+
+    # 작은 큐브: 움직이는 '카트'역할을 합니다.
+    cart = Cube(scale_x=0.5, scale_y=0.5, scale_z=0.5, colors=[255,255,0,255])  
 
     start_pos = Vec3(*rail.path_points[0])
     cart_transform = Mat4.from_translation(start_pos)
-
-    rail.add_to_renderer(renderer)
-    rail.draw_debug_lines(renderer) # 양 옆 rail
-    renderer.rail = rail
-
     renderer.cart_shape = renderer.add_shape(
         transform=cart_transform,
         vertice=cart.vertices,
@@ -60,6 +55,35 @@ if __name__ == '__main__':
         group=None
     )
 
+    rail.add_to_renderer(renderer)
+    renderer.rail = rail
+
+    # 미관용
+    tile_temp = Cube(scale_x=16, scale_y=2, scale_z=12, colors=[102,205,170,255])
+    
+    tile_temp_translation = Mat4.from_translation(vector=Vec3(x=1, y=-5, z=-1))
+
+    renderer.add_shape(
+        tile_temp_translation, 
+        tile_temp.vertices, 
+        tile_temp.indices, 
+        tile_temp.colors, 
+        type="tile", 
+        group=None
+    )
+
+    '''
+    # 중심부 레일
+    renderer.main_rail_shape = renderer.add_shape(
+        transform=Mat4(),
+        vertice=rail.rail_line_verts,
+        indice=rail.rail_line_indices,
+        color=rail.rail_line_colors,
+        type="debug-line",  # GL_LINES로 렌더링되도록 해야 함
+        group=None
+    )
+    '''
+
     @renderer.event
     def on_resize(width, height):
         camera.resize(renderer, width, height )
@@ -68,13 +92,21 @@ if __name__ == '__main__':
     @renderer.event
     def on_draw():
         renderer.clear()
-        camera.apply(renderer)
+        if not renderer.camera_cart_front:
+            camera.apply(renderer)
         renderer.batch.draw()
 
     @renderer.event
     def on_key_press( key, mods ):	
         if key==pyglet.window.key.Q:
             pyglet.app.exit()
+        if key==pyglet.window.key.F:
+            if not renderer.camera_cart_front:
+                renderer.camera_save = renderer.view_mat  # 현재 카메라 저장해두고 나중에 사용 
+                renderer.camera_cart_front = True
+            else:
+                renderer.view_mat = renderer.camera_save  # 복원
+                renderer.camera_cart_front = False
             
     @renderer.event
     def on_mouse_release( x, y, button, mods ):
