@@ -1,4 +1,4 @@
-> 📌 **This repository originated from** [here](https://github.com/IntelligentMOtionlab/SNU_ComputerGraphics).
+> 📌 **This repository refers..** [here](https://github.com/IntelligentMOtionlab/SNU_ComputerGraphics).
 
 >🔹 The content is **identical** to the original repository.
 
@@ -13,7 +13,7 @@ This repository contains the completed code and documentation for the 2025 Compu
 - `assignment1_hierarchical_modeling/`: Hierarchical model with animation
 - `assignment2_cornell_box/`: Scene modeling of a Cornell box
 - `assignment3_roller_coaster/`: Roller coaster simulation using B-splines and arc-length parameterization
-
+- `assignment4_Shading_and_Texture_Mapping/`: Apply texture and Phong shading to Cornell Box
 ---
 
 ## 🎮 Assignment #1 — Hierarchical Modeling
@@ -61,3 +61,15 @@ Simulate a moving cart along a smooth spline-based roller coaster track using ph
 📸 Render: ![Image](https://github.com/user-attachments/assets/bf8216ab-614b-450a-8b60-026feb297fb4)
 ![Image](https://github.com/user-attachments/assets/972f9c43-9cb7-4a59-98a1-1eb57f87a5ad)
 
+## 🪞 Assignment #4 — Shading and Texture Mapping
+
+**Objective:**  
+Reproduce a photorealistic render of the Cornell Box scene using custom shaders, BRDF simulation, and texture mapping techniques.
+
+**Highlights:**
+- Apply Phong shading to Cornell Box.
+- Select appropriate BRDF parameters and textures for Materials.
+- Insert a surface light source approximated by a point light source.
+
+📸 Render: ![Image](https://github.com/user-attachments/assets/c43aa6d2-4a48-4f20-8f94-d8c7cbb854cd)
+![Image](https://github.com/user-attachments/assets/872c927c-d64b-4ad8-9886-9878cbc29bf6)
