@@ -42,8 +42,11 @@ Recreate a real-world Cornell Box using geometric primitives and match its physi
 - Enabled interactive camera via a trackball viewer.
 - Includes photo references and matching render screenshots.
 
-📷 Real Photo & 📸 Render Comparison: 
-<img src="https://github.com/user-attachments/assets/0b22f589-6db3-48cf-93ac-751711a5cf3e" width = "320" height = "240"/>
+**📷 Real Photo & 📸 Render Comparison:**
+
+
+
+<img src="https://github.com/user-attachments/assets/0b22f589-6db3-48cf-93ac-751711a5cf3e" width = "320" height = "320"/>
 <img src="https://github.com/user-attachments/assets/6a53ebe8-5356-4a95-9d01-d6c619d91566" width = "320" height = "240"/>
 ---
 
