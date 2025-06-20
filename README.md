@@ -27,7 +27,7 @@ Design a 3-level hierarchical model using primitive transformations (translation
 - Animated joints independently to demonstrate the hierarchy.
 - Code written in Pyglet using custom transformation logic.
  
-<img src="https://github.com/user-attachments/assets/06171d9f-8d46-467a-beee-e2dad3327548" width = "512" height = "768"/>
+<img src="https://github.com/user-attachments/assets/06171d9f-8d46-467a-beee-e2dad3327548" width = "320" height = "240"/>
 
 ---
 
@@ -43,8 +43,8 @@ Recreate a real-world Cornell Box using geometric primitives and match its physi
 - Includes photo references and matching render screenshots.
 
 📷 Real Photo & 📸 Render Comparison: 
-<img src="https://github.com/user-attachments/assets/0b22f589-6db3-48cf-93ac-751711a5cf3e" width = "512" height = "768"/>
-<img src="https://github.com/user-attachments/assets/6a53ebe8-5356-4a95-9d01-d6c619d91566" width = "512" height = "768"/>
+<img src="https://github.com/user-attachments/assets/0b22f589-6db3-48cf-93ac-751711a5cf3e" width = "320" height = "240"/>
+<img src="https://github.com/user-attachments/assets/6a53ebe8-5356-4a95-9d01-d6c619d91566" width = "320" height = "240"/>
 ---
 
 ## 🎢 Assignment #3 — Roller Coaster Simulation
@@ -59,8 +59,8 @@ Simulate a moving cart along a smooth spline-based roller coaster track using ph
 - Added realistic motion: speed varies based on track height via energy conservation.
 - First-person camera mode implemented to ride the coaster.
 
-<img src="https://github.com/user-attachments/assets/bf8216ab-614b-450a-8b60-026feb297fb4" width = "512" height = "768"/>
-<img src="https://github.com/user-attachments/assets/972f9c43-9cb7-4a59-98a1-1eb57f87a5ad" width = "512" height = "768"/>
+<img src="https://github.com/user-attachments/assets/bf8216ab-614b-450a-8b60-026feb297fb4" width = "320" height = "240"/>
+<img src="https://github.com/user-attachments/assets/972f9c43-9cb7-4a59-98a1-1eb57f87a5ad" width = "320" height = "240"/>
 
 ## 🪞 Assignment #4 — Shading and Texture Mapping
 
@@ -72,8 +72,8 @@ Reproduce a photorealistic render of the Cornell Box scene using custom shaders,
 - Select appropriate BRDF parameters and textures for Materials.
 - Insert a surface light source approximated by a point light source.
 
-<img src="https://github.com/user-attachments/assets/c43aa6d2-4a48-4f20-8f94-d8c7cbb854cd" width = "512" height = "768"/>
-<img src="https://github.com/user-attachments/assets/872c927c-d64b-4ad8-9886-9878cbc29bf6" width = "512" height = "768"/>
+<img src="https://github.com/user-attachments/assets/c43aa6d2-4a48-4f20-8f94-d8c7cbb854cd" width = "320" height = "240"/>
+<img src="https://github.com/user-attachments/assets/872c927c-d64b-4ad8-9886-9878cbc29bf6" width = "320" height = "240"/>
 
 ## 🔦 Assignment #5 — Ray Tracing
 
@@ -91,7 +91,7 @@ Render the Cornell Box scene from Assignment #2 with photorealistic quality usin
   - The **Pyglet render with shading/texture mapping** (Assignment #4)
 - Final output stored and displayed using the **Pillow** image library.
 
-<img src="https://github.com/user-attachments/assets/892eb6c8-19dd-4bc9-87fc-e9bcc8203308" width = "512" height = "768"/>
+<img src="https://github.com/user-attachments/assets/892eb6c8-19dd-4bc9-87fc-e9bcc8203308" width = "320" height = "240"/>
 
 ## 🥋 Cornell Box Demo - For Assignment #2 & #4
 
